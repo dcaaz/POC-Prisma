@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { change, Order } from "../protocols/order.js";
+import { Change, Order } from "../protocols/order.js";
 import { changeOrderSchema, OrderSchema } from "../schemas/order-schema.js";
 import { connectionDB } from "../database/db.js";
 
@@ -41,14 +41,28 @@ async function finalizeTheOrder(req: Request, res: Response) {
         res.status(200).send(`O valor total do pedido foi ${total}`);
 
     } catch (err) {
-        console.log("err", err);
+        return res.status(500).send('Server not running');
+    }
+}
+
+async function allOrders(req: Request, res: Response) {
+    const { phone } = req.query
+
+    try {
+
+        const data = await connectionDB.query('SELECT * FROM "order" WHERE phoneType=$1;', [phone]);
+
+
+        res.status(200).send(`Sua retrospectiva é de: ${data.rowCount} pedidos! Oba!`);
+
+    } catch (err) {
         return res.status(500).send('Server not running');
     }
 }
 
 async function changeOrder(req: Request, res: Response) {
     const { id } = req.query
-    const newOrder = req.body as change;
+    const newOrder = req.body as Change;
 
     const { error } = changeOrderSchema.validate(newOrder);
 
@@ -63,15 +77,12 @@ async function changeOrder(req: Request, res: Response) {
 
         const name = rows[0].name
 
-        const teste = await connectionDB.query('UPDATE "order" SET item=$1, value=$2 WHERE id=$3',
+        await connectionDB.query('UPDATE "order" SET item=$1, value=$2 WHERE id=$3',
             [newOrder.item, newOrder.value, id]);
-
-        console.log("teste", teste)
 
         res.status(200).send(`O pedido feito por ${name} foi alterado`);
 
     } catch (err) {
-        console.log("err", err);
         return res.status(500).send('Server not running');
     }
 }
@@ -90,14 +101,15 @@ async function deleteOrder(req: Request, res: Response) {
         res.status(200).send(`O pedido feito por ${name} foi deletado`);
 
     } catch (err) {
-        console.log("err", err);
         return res.status(500).send('Server not running');
     }
 }
 
+
 export {
     chooseOrder,
     finalizeTheOrder,
+    allOrders,
     changeOrder,
     deleteOrder
 }
