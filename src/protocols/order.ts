@@ -6,7 +6,4 @@ export type Order = {
     referencePoint: string
 }
 
-export type Change = {
-    item: string,
-    value: number
-} 
+export type Change = Pick<Order, "item" | "value">
