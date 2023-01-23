@@ -38,7 +38,7 @@ async function finalizeTheOrder(req: Request, res: Response) {
 
         const total = Number(value) + deliveryFee;
 
-        res.status(200).send(`O valor total do pedido foi ${total} reais`);
+        res.status(200).send(`O valor total do pedido é ${total} reais`);
 
     } catch (err) {
         return res.status(500).send('Server not running');

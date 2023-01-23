@@ -1,17 +1,17 @@
 # POC TypeScript - IBeachFood
 
-> Primeiro projeto em TypeScript não poderia ser relacionado a outro assunto, se não comida. De maneira simples, atende as demandas de realizar, atualizar, finalizaer e/ou deletar o pedido 
+> Primeiro projeto em TypeScript não poderia ser relacionado a outro assunto, se não comida. De maneira simples, atende as demandas de realizar, atualizar, finalizaer e/ou deletar pedidos
 
 ## Organização do projeto
 
  - Usar/configurar/instalar TypeScript (sem utilizar configurações prontas)
- - Ter ao menos um CRUD (as operações de create, retrieve, update e delete)
+ - Ter ao menos um CRUD (operações de create, retrieve, update e delete)
 
-## DOC APY
+## DOC API
 
 1. Rota ```/order```
 
-Descrição: utilizada para realizar pedido
+Descrição: criar pedido
 
 Entrada: atrvés de um body
 ``` 
@@ -30,7 +30,7 @@ Pedido realizado, o pagamento é feito na entrega :)
 
 2. Rota ```/finalize```
 
-Descrição: utilizada para finalizar pedido
+Descrição: finalizar pedido
 
 Entrada: através de uma query
 ``` 
@@ -38,12 +38,12 @@ id: 1
 ```
 Saída: status 200
 ``` 
-O valor total do pedido foi 10 reais
+O valor total do pedido é 15 reais
 ```
 
 3. Rota ```/change```
 
-Descrição: utilizada para alterar pedido
+Descrição: alterar pedido
 
 Entrada: através de uma query e body
 ``` 
@@ -61,7 +61,7 @@ O pedido feito por Daniela foi alterado
 
 4. Rota ```/delete```
 
-Descrição: utilizada para deletar pedido
+Descrição: cancelar pedido
 
 Entrada: através de uma query 
 ``` 
@@ -74,7 +74,7 @@ O pedido feito por Daniela foi cancelado
 
 5. Rota ```/allOrders```
 
-Descrição: utilizada para fazer uma retrospectiva da quantidade de pedidos relazados por um mesmo usuário
+Descrição: retrospectiva da quantidade de pedidos realizados pelo mesmo usuário
 
 Entrada: através de uma query 
 ``` 
