@@ -1,6 +1,6 @@
 # POC TypeScript - IBeachFood
 
-> Primeiro projeto em TypeScript não poderia ser relacionado a outro assunto, se não comida. De maneira simples, atende as demandas de realizar, atualizar, finalizaer e/ou deletar pedidos
+> Primeiro projeto em TypeScript não poderia ser relacionado a outro assunto, senão comida. De maneira simples, atende às demandas de realizar, atualizar, finalizar e/ou deletar pedidos!
 
 ## Organização do projeto
 
