@@ -17,7 +17,7 @@ async function chooseOrder(req: Request, res: Response) {
 
         await connectionDB.query('INSERT INTO "order" (item, name, phoneType, value, referencePoint) VALUES ($1, $2, $3, $4, $5);', [newOrder.item, newOrder.name, newOrder.phoneType, newOrder.value, newOrder.referencePoint]);
 
-        return res.status(200).send("Pedido realizado, o pagamento é feito na entrega :)");
+        return res.status(201).send("Pedido realizado, o pagamento é feito na entrega :)");
 
     }
     catch (err) {
@@ -38,7 +38,7 @@ async function finalizeTheOrder(req: Request, res: Response) {
 
         const total = Number(value) + deliveryFee;
 
-        res.status(200).send(`O valor total do pedido foi ${total}`);
+        res.status(200).send(`O valor total do pedido foi ${total} reais`);
 
     } catch (err) {
         return res.status(500).send('Server not running');
@@ -53,7 +53,7 @@ async function allOrders(req: Request, res: Response) {
         const data = await connectionDB.query('SELECT * FROM "order" WHERE phoneType=$1;', [phone]);
 
 
-        res.status(200).send(`Sua retrospectiva é de: ${data.rowCount} pedidos! Oba!`);
+        res.status(200).send(`Sua retrospectiva é de: ${data.rowCount} pedidos! Oba! Peça novamente`);
 
     } catch (err) {
         return res.status(500).send('Server not running');
@@ -80,7 +80,7 @@ async function changeOrder(req: Request, res: Response) {
         await connectionDB.query('UPDATE "order" SET item=$1, value=$2 WHERE id=$3',
             [newOrder.item, newOrder.value, id]);
 
-        res.status(200).send(`O pedido feito por ${name} foi alterado`);
+        res.status(201).send(`O pedido feito por ${name} foi alterado`);
 
     } catch (err) {
         return res.status(500).send('Server not running');
@@ -98,7 +98,7 @@ async function deleteOrder(req: Request, res: Response) {
 
         await connectionDB.query('DELETE FROM "order" WHERE id=$1;', [id]);
 
-        res.status(200).send(`O pedido feito por ${name} foi deletado`);
+        res.status(200).send(`O pedido feito por ${name} foi cancelado`);
 
     } catch (err) {
         return res.status(500).send('Server not running');
