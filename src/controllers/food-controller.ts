@@ -38,21 +38,15 @@ async function finalizeTheOrder(req: Request, res: Response) {
     const idFinalize = Number(id);
 
     try {
-
-        // const { rows } = await connectionDB.query('SELECT value FROM "order" WHERE id=$1;', [id]);
-
-        // const value = rows[0].value
-
-        // const deliveryFee: number = 5;
-
-        // const total = Number(value) + deliveryFee;
-
-        // res.status(200).send(`O valor total do pedido é ${total} reais`);
-
-       
         const resultado = await finalize(idFinalize);
 
-        return res.status(200).send(resultado)
+        const value = resultado.value;
+
+        const deliveryFee: number = 5;
+
+        const total = Number(value) + deliveryFee;
+
+        res.status(200).send(`O valor total do pedido é ${total} reais`);
 
     } catch (err) {
         console.log("err", err)
