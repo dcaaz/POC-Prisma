@@ -3,8 +3,8 @@ import { Decimal } from "@prisma/client/runtime"
 export type Order = {
     item: string,
     name: string,
-    phoneType: string,
-    value: string,
+    phonetype: number,
+    value: number,
     referencePoint: string
 }
 

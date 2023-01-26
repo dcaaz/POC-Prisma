@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import { Change, Order } from "../protocols/order.js";
 import { changeOrderSchema, OrderSchema } from "../schemas/order-schema.js";
-import { finalize } from "../repositories/food-repositorie.js";
+import { finalize, insertUnique } from "../repositories/food-repositorie.js";
 
-/*async function chooseOrder(req: Request, res: Response) {
+async function chooseOrder(req: Request, res: Response) {
     const newOrder = req.body as Order;
 
     const { error } = OrderSchema.validate(newOrder);
@@ -13,24 +13,15 @@ import { finalize } from "../repositories/food-repositorie.js";
         return res.status(422).send(errors);
     }
 
-    const dataUser = {
-        item: newOrder.item, 
-        name: newOrder.name, 
-        phoneType: newOrder.phoneType, 
-        value: newOrder.value, 
-        referencePoint: newOrder.referencePoint
-    }
 
     try {
-
-        //await connectionDB.query('INSERT INTO "order" (item, name, phoneType, value, referencePoint) VALUES ($1, $2, $3, $4, $5);', [newOrder.item, newOrder.name, newOrder.phoneType, newOrder.value, newOrder.referencePoint]);
-        //return res.status(201).send("Pedido realizado, o pagamento é feito na entrega :)");
-        const data =  await insertUnique(dataUser);
+        await insertUnique(newOrder);
+        return res.status(201).send("Pedido realizado, o pagamento é feito na entrega :)");
     }
     catch (err) {
         return res.status(500).send('Server not running');
     }
-}*/
+}
 
 async function finalizeTheOrder(req: Request, res: Response) {
     const { id } = req.query;
@@ -116,5 +107,6 @@ async function finalizeTheOrder(req: Request, res: Response) {
 
 
 export {
-    finalizeTheOrder
+    finalizeTheOrder,
+    chooseOrder
 }

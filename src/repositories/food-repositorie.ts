@@ -11,12 +11,20 @@ async function finalize(id: number) {
 
 
 
-async function insertUnique(dataUser: Order) {
-   /*  return prisma.order.create({
-        data: dataUser
-    }) */
+async function insertUnique(newOrder: Order) {
+    return prisma.order.create({
+        data: {
+            item: newOrder.item,
+            name: newOrder.name,
+            phonetype: newOrder.phonetype,
+            value: newOrder.value,
+            referencepoint: newOrder.referencePoint
+        }
+    })
 }
 
+
 export {
-    finalize
+    finalize,
+    insertUnique
 }
