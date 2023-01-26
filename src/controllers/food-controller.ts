@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import { Change, Order } from "../protocols/order.js";
 import { changeOrderSchema, OrderSchema } from "../schemas/order-schema.js";
-import { connectionDB } from "../database/db.js";
+import { finalize } from "../repositories/food-repositorie.js";
 
-async function chooseOrder(req: Request, res: Response) {
+/*async function chooseOrder(req: Request, res: Response) {
     const newOrder = req.body as Order;
 
     const { error } = OrderSchema.validate(newOrder);
@@ -13,39 +13,54 @@ async function chooseOrder(req: Request, res: Response) {
         return res.status(422).send(errors);
     }
 
+    const dataUser = {
+        item: newOrder.item, 
+        name: newOrder.name, 
+        phoneType: newOrder.phoneType, 
+        value: newOrder.value, 
+        referencePoint: newOrder.referencePoint
+    }
+
     try {
 
-        await connectionDB.query('INSERT INTO "order" (item, name, phoneType, value, referencePoint) VALUES ($1, $2, $3, $4, $5);', [newOrder.item, newOrder.name, newOrder.phoneType, newOrder.value, newOrder.referencePoint]);
-
-        return res.status(201).send("Pedido realizado, o pagamento é feito na entrega :)");
-
+        //await connectionDB.query('INSERT INTO "order" (item, name, phoneType, value, referencePoint) VALUES ($1, $2, $3, $4, $5);', [newOrder.item, newOrder.name, newOrder.phoneType, newOrder.value, newOrder.referencePoint]);
+        //return res.status(201).send("Pedido realizado, o pagamento é feito na entrega :)");
+        const data =  await insertUnique(dataUser);
     }
     catch (err) {
         return res.status(500).send('Server not running');
     }
-}
+}*/
 
 async function finalizeTheOrder(req: Request, res: Response) {
-    const { id } = req.query
+    const { id } = req.query;
+
+    const idFinalize = Number(id);
 
     try {
 
-        const { rows } = await connectionDB.query('SELECT value FROM "order" WHERE id=$1;', [id]);
+        // const { rows } = await connectionDB.query('SELECT value FROM "order" WHERE id=$1;', [id]);
 
-        const value = rows[0].value
+        // const value = rows[0].value
 
-        const deliveryFee: number = 5;
+        // const deliveryFee: number = 5;
 
-        const total = Number(value) + deliveryFee;
+        // const total = Number(value) + deliveryFee;
 
-        res.status(200).send(`O valor total do pedido é ${total} reais`);
+        // res.status(200).send(`O valor total do pedido é ${total} reais`);
+
+       
+        const resultado = await finalize(idFinalize);
+
+        return res.status(200).send(resultado)
 
     } catch (err) {
+        console.log("err", err)
         return res.status(500).send('Server not running');
     }
 }
 
-async function allOrders(req: Request, res: Response) {
+/*async function allOrders(req: Request, res: Response) {
     const { phone } = req.query
 
     try {
@@ -58,9 +73,9 @@ async function allOrders(req: Request, res: Response) {
     } catch (err) {
         return res.status(500).send('Server not running');
     }
-}
+}*/
 
-async function changeOrder(req: Request, res: Response) {
+/*async function changeOrder(req: Request, res: Response) {
     const { id } = req.query
     const newOrder = req.body as Change;
 
@@ -85,9 +100,9 @@ async function changeOrder(req: Request, res: Response) {
     } catch (err) {
         return res.status(500).send('Server not running');
     }
-}
+}*/
 
-async function deleteOrder(req: Request, res: Response) {
+/*async function deleteOrder(req: Request, res: Response) {
     const { id } = req.query // query reorna string
 
     try {
@@ -103,13 +118,9 @@ async function deleteOrder(req: Request, res: Response) {
     } catch (err) {
         return res.status(500).send('Server not running');
     }
-}
+}*/
 
 
 export {
-    chooseOrder,
-    finalizeTheOrder,
-    allOrders,
-    changeOrder,
-    deleteOrder
+    finalizeTheOrder
 }
