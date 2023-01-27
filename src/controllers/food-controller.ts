@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { Change, Order, Phone } from "../protocols/order.js";
+import { Order } from "../protocols/order.js";
 import { changeOrderSchema, OrderSchema } from "../schemas/order-schema.js";
-import { finalizeUnique, insertUnique, manyOrders, upNewOrder } from "../repositories/food-repositorie.js";
+import { finalizeUnique, insertUnique, manyOrders, upNewOrder, deleteId } from "../repositories/food-repositorie.js";
 
 async function chooseOrder(req: Request, res: Response) {
     const newOrder = req.body as Order;
@@ -76,15 +76,6 @@ async function changeOrder(req: Request, res: Response) {
 
     try {
 
-        /* const { rows } = await connectionDB.query('SELECT name FROM "order" WHERE id=$1;', [id]);
-
-        const name = rows[0].name */
-
-        /* await connectionDB.query('UPDATE "order" SET item=$1, value=$2 WHERE id=$3',
-            [newOrder.item, newOrder.value, id]); */
-
-        //res.status(201).send(`O pedido feito por ${name} foi alterado`);
-
         const data = await upNewOrder(idNumber, newOrder);
 
         res.status(201).send(`O pedido feito por ${data.name} foi alterado`);
@@ -94,28 +85,32 @@ async function changeOrder(req: Request, res: Response) {
     }
 }
 
-/*async function deleteOrder(req: Request, res: Response) {
-    const { id } = req.query // query reorna string
+async function deleteOrder(req: Request, res: Response) {
+    const { id } = req.query;
+    const idNumber = Number(id);
 
     try {
 
-        const { rows } = await connectionDB.query('SELECT name FROM "order" WHERE id=$1;', [id]);
+        // const { rows } = await connectionDB.query('SELECT name FROM "order" WHERE id=$1;', [id]);
 
-        const name = rows[0].name
+        // const name = rows[0].name
 
-        await connectionDB.query('DELETE FROM "order" WHERE id=$1;', [id]);
+        // await connectionDB.query('DELETE FROM "order" WHERE id=$1;', [id]);
 
-        res.status(200).send(`O pedido feito por ${name} foi cancelado`);
+        const data = await deleteId(idNumber);
+
+        res.status(200).send(`O pedido feito por ${data.name} foi cancelado`);
 
     } catch (err) {
         return res.status(500).send('Server not running');
     }
-}*/
+}
 
 
 export {
     finalizeTheOrder,
     chooseOrder,
     allOrders, 
-    changeOrder
+    changeOrder, 
+    deleteOrder
 }

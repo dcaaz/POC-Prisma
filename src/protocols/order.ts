@@ -9,5 +9,3 @@ export type Order = {
 }
 
 export type Change = Pick<Order, "item" | "value">
-
-export type Phone = Pick<Order, "phonetype">

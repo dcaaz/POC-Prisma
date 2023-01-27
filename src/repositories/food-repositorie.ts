@@ -1,5 +1,5 @@
 import prisma from "../database/db.js";
-import { Change, Order, Phone } from "../protocols/order.js";
+import { Change, Order } from "../protocols/order.js";
 
 async function finalizeUnique(id: number) {
      return prisma.order.findUnique({
@@ -41,10 +41,20 @@ async function upNewOrder(idNumber: number, newOrder: Change) {
     })
 }
 
+async function deleteId(idNumber: number) {  
+    return prisma.order.delete({
+        where:
+        {
+            id: idNumber,
+        }
+    })
+}
+
 
 export {
     finalizeUnique,
     insertUnique,
     manyOrders,
-    upNewOrder
+    upNewOrder,
+    deleteId
 }
