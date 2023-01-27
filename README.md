@@ -72,7 +72,7 @@ Saída: status 200
 O pedido feito por Daniela foi cancelado
 ```
 
-5. Rota ```/allOrders```
+5. Rota ```/all```
 
 Descrição: retrospectiva da quantidade de pedidos realizados pelo mesmo usuário
 

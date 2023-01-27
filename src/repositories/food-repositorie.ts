@@ -1,15 +1,13 @@
 import prisma from "../database/db.js";
-import { Order } from "../protocols/order.js";
+import { Change, Order, Phone } from "../protocols/order.js";
 
-async function finalize(id: number) {
+async function finalizeUnique(id: number) {
      return prisma.order.findUnique({
         where: {
             id
         }
      })
 }
-
-
 
 async function insertUnique(newOrder: Order) {
     return prisma.order.create({
@@ -23,8 +21,28 @@ async function insertUnique(newOrder: Order) {
     })
 }
 
+async function manyOrders(phonetype: number) {
+    return prisma.order.findMany({
+        where: {
+            phonetype: phonetype
+        }
+     })
+}
+
+async function upNewOrder(idNumber: number, newOrder: Change) {
+    /* return prisma.order.upsert({
+        where: {
+            id: idNumber,
+        },
+        create: newOrder as Change,
+        update: newOrder
+    }) */
+}
+
 
 export {
-    finalize,
-    insertUnique
+    finalizeUnique,
+    insertUnique,
+    manyOrders,
+    upNewOrder
 }
