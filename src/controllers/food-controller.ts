@@ -87,7 +87,7 @@ async function changeOrder(req: Request, res: Response) {
 
         const data = await upNewOrder(idNumber, newOrder);
 
-        res.status(200).send("ok");
+        res.status(201).send(`O pedido feito por ${data.name} foi alterado`);
 
     } catch (err) {
         return res.status(500).send('Server not running');

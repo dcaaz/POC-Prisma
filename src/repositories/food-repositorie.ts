@@ -30,13 +30,15 @@ async function manyOrders(phonetype: number) {
 }
 
 async function upNewOrder(idNumber: number, newOrder: Change) {
-    /* return prisma.order.upsert({
+    return prisma.order.update({
         where: {
             id: idNumber,
         },
-        create: newOrder as Change,
-        update: newOrder
-    }) */
+        data: {
+            item: newOrder.item,
+            value: newOrder.value
+        }
+    })
 }
 
 
