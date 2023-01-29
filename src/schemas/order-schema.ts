@@ -5,7 +5,9 @@ export const OrderSchema = Joi.object({
     name: Joi.string().required(),
     phonetype: Joi.number().required(),
     value: Joi.number().required(),
-    referencePoint: Joi.string().required()
+    referencepoint: Joi.string().required(), 
+    category: Joi.number().required(),
+    coupon: Joi.number()
 })
 
 export const changeOrderSchema = Joi.object({

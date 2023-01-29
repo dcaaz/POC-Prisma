@@ -2,11 +2,11 @@ import prisma from "../database/db.js";
 import { Change, Order } from "../protocols/order.js";
 
 async function finalizeUnique(id: number) {
-     return prisma.order.findUnique({
+    return prisma.order.findUnique({
         where: {
             id
         }
-     })
+    })
 }
 
 async function insertUnique(newOrder: Order) {
@@ -16,7 +16,9 @@ async function insertUnique(newOrder: Order) {
             name: newOrder.name,
             phonetype: newOrder.phonetype,
             value: newOrder.value,
-            referencepoint: newOrder.referencePoint
+            referencepoint: newOrder.referencepoint,
+            category: newOrder.category,
+            coupon: newOrder.coupon
         }
     })
 }
@@ -26,7 +28,7 @@ async function manyOrders(phonetype: number) {
         where: {
             phonetype: phonetype
         }
-     })
+    })
 }
 
 async function upNewOrder(idNumber: number, newOrder: Change) {
@@ -41,11 +43,19 @@ async function upNewOrder(idNumber: number, newOrder: Change) {
     })
 }
 
-async function deleteId(idNumber: number) {  
+async function deleteId(idNumber: number) {
     return prisma.order.delete({
         where:
         {
             id: idNumber,
+        }
+    })
+}
+
+async function findCoupon(idCategory: number) {
+    return prisma.coupon.findUnique({
+        where: {
+            id: idCategory
         }
     })
 }
@@ -56,5 +66,6 @@ export {
     insertUnique,
     manyOrders,
     upNewOrder,
-    deleteId
+    deleteId,
+    findCoupon
 }

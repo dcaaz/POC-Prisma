@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import { Order } from "../protocols/order.js";
 import { changeOrderSchema, OrderSchema } from "../schemas/order-schema.js";
-import { finalizeUnique, insertUnique, manyOrders, upNewOrder, deleteId } from "../repositories/food-repositorie.js";
+import { finalizeUnique, insertUnique, manyOrders, upNewOrder, deleteId, findCoupon } from "../repositories/food-repositorie.js";
+import { ResolvedModuleWithFailedLookupLocations } from "typescript";
 
 async function chooseOrder(req: Request, res: Response) {
     const newOrder = req.body as Order;
@@ -32,13 +33,28 @@ async function finalizeTheOrder(req: Request, res: Response) {
     try {
         const resultado = await finalizeUnique(idFinalize);
 
+
         const value = resultado.value;
 
-        const deliveryFee: number = 5;
+        const idCoupon = resultado.coupon;
 
-        const total = Number(value) + deliveryFee;
+        if(idCoupon === null){
+            const deliveryFee: number = 5;
 
-        res.status(200).send(`O valor total do pedido é ${total} reais`);
+            const total = Number(value) + deliveryFee ;
+    
+            res.status(200).send(`O valor total do pedido é ${total} reais`);
+        } else {
+            const data = await findCoupon(idCoupon);
+
+            const coupon = Number(data.value);
+
+            const deliveryFee: number = 5;
+
+            const total = (Number(value) + deliveryFee) - coupon ;
+
+            res.status(200).send(`O valor total do pedido é ${total} reais`);
+        }
 
     } catch (err) {
         console.log("err", err)
@@ -110,7 +126,7 @@ async function deleteOrder(req: Request, res: Response) {
 export {
     finalizeTheOrder,
     chooseOrder,
-    allOrders, 
-    changeOrder, 
+    allOrders,
+    changeOrder,
     deleteOrder
 }

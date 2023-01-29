@@ -8,10 +8,29 @@ datasource db {
 }
 
 model order {
-  id             Int     @id @default(autoincrement())
-  item           String  @db.VarChar(100)
-  name           String  @db.VarChar(40)
-  phonetype      Decimal @db.Decimal
-  value          Decimal @db.Decimal
-  referencepoint String  @db.VarChar(40)
+  id                          Int        @id @default(autoincrement())
+  item                        String     @db.VarChar(100)
+  name                        String     @db.VarChar(40)
+  phonetype                   Decimal    @unique @db.Decimal
+  value                       Decimal    @db.Decimal
+  referencepoint              String     @db.VarChar(40)
+  category                    Int
+  coupon                      Int?
+  created_at                  DateTime   @default(now()) @db.Date
+  categories                  categories @relation(fields: [category], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  coupon_order_couponTocoupon coupon?    @relation("order_couponTocoupon", fields: [coupon], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model categories {
+  id         Int      @id @default(autoincrement())
+  name       String   @unique
+  created_at DateTime @default(now()) @db.Date
+  order      order[]
+}
+
+model coupon {
+  id                         Int      @id @default(autoincrement())
+  value                      Decimal  @db.Decimal
+  created_at                 DateTime @default(now()) @db.Date
+  order_order_couponTocoupon order[]  @relation("order_couponTocoupon")
 }
