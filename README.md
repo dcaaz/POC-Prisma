@@ -20,7 +20,9 @@ Entrada: atrvés de um body
   "name": "Daniela", 
   "phoneType": 48998215536, 
   "value": 10, 
-  "referencePoint": "próx a barraca de açaí"
+  "referencepoint": "próx a barraca de açaí",
+  "category" 1,
+  "coupon": 1 1
 }
 ```
 Saída: status 201

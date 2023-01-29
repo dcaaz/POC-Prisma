@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { Order } from "../protocols/order.js";
 import { changeOrderSchema, OrderSchema } from "../schemas/order-schema.js";
 import { finalizeUnique, insertUnique, manyOrders, upNewOrder, deleteId, findCoupon } from "../repositories/food-repositorie.js";
-import { ResolvedModuleWithFailedLookupLocations } from "typescript";
 
 async function chooseOrder(req: Request, res: Response) {
     const newOrder = req.body as Order;
